@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
+    private static final int MIN_TEMP = -273;
+    private static final double DELTA = 0.00001;
     private double[] tempArr;
     private int counter;
-    private static final int minTemp = -273;
-    private static final double delta = 0.00001;
 
     public TemperatureSeriesAnalysis() {
         tempArr = new double[]{};
@@ -64,7 +64,7 @@ public class TemperatureSeriesAnalysis {
         double closestTemp = tempArr[0];
         for (int i = 0; i < counter; i++) {
             if (Math.abs(closestTemp) > Math.abs(tempArr[i]) || (Math.abs(
-                    Math.abs(closestTemp) - Math.abs(tempArr[i])) < delta
+                    Math.abs(closestTemp) - Math.abs(tempArr[i])) < DELTA
                     && tempArr[i] > closestTemp)) {
                 closestTemp = tempArr[i];
             }
@@ -78,7 +78,7 @@ public class TemperatureSeriesAnalysis {
         for (int i = 1; i < counter; i++) {
             if (Math.abs(closestTo - tempValue) > Math.abs(tempArr[i]
                     - tempValue) || (Math.abs(Math.abs(closestTo - tempValue)
-                    - Math.abs(tempArr[i] - tempValue)) < delta && tempArr[i]
+                    - Math.abs(tempArr[i] - tempValue)) < DELTA && tempArr[i]
                     > closestTo)) {
                 closestTo = tempArr[i];
             }
@@ -103,7 +103,7 @@ public class TemperatureSeriesAnalysis {
 
     public int addTemps(double... temps) {
         for (double temp : temps) {
-            if (temp < minTemp) {
+            if (temp < MIN_TEMP) {
                 throw new InputMismatchException();
             }
         }
