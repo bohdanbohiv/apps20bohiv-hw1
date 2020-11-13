@@ -4,11 +4,13 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
-    protected double[] temp_arr;
-    protected int counter;
+    private double[] tempArr;
+    private int counter;
+    private static final int minTemp = -273;
+    private static final double delta = 0.00001;
 
     public TemperatureSeriesAnalysis() {
-        temp_arr = new double[]{};
+        tempArr = new double[]{};
         counter = 0;
     }
 
@@ -19,65 +21,78 @@ public class TemperatureSeriesAnalysis {
 
     public double average() {
         dontAllowEmptyArr();
-        double total = temp_arr[0];
-        for (int i = 1; i < counter; i++)
-            total += temp_arr[i];
+        double total = tempArr[0];
+        for (int i = 1; i < counter; i++) {
+            total += tempArr[i];
+        }
         return total / counter;
     }
 
     public double deviation() {
         double sum = 0;
         double mean = average();
-        for (int i = 0; i < counter; i++)
-            sum += Math.pow(temp_arr[i] - mean, 2);
+        for (int i = 0; i < counter; i++) {
+            sum += Math.pow(tempArr[i] - mean, 2);
+        }
         return Math.sqrt(sum / counter);
     }
 
     public double min() {
         dontAllowEmptyArr();
-        double min_temp = temp_arr[0];
-        for (int i = 1; i < counter; i++)
-            if (min_temp > temp_arr[i])
-                min_temp = temp_arr[i];
-        return min_temp;
+        double minTemp = tempArr[0];
+        for (int i = 1; i < counter; i++) {
+            if (minTemp > tempArr[i]) {
+                minTemp = tempArr[i];
+            }
+        }
+        return minTemp;
     }
 
     public double max() {
         dontAllowEmptyArr();
-        double max_temp = temp_arr[0];
-        for (int i = 1; i < counter; i++)
-            if (max_temp < temp_arr[i])
-                max_temp = temp_arr[i];
-        return max_temp;
+        double maxTemp = tempArr[0];
+        for (int i = 1; i < counter; i++) {
+            if (maxTemp < tempArr[i]) {
+                maxTemp = tempArr[i];
+            }
+        }
+        return maxTemp;
     }
 
     public double findTempClosestToZero() {
         dontAllowEmptyArr();
-        double closest_temp = temp_arr[0];
-        for (int i = 0; i < counter; i++)
-            if (Math.abs(closest_temp) > Math.abs(temp_arr[i]) || (Math.abs(closest_temp) == Math.abs(temp_arr[i]) &&
-                    temp_arr[i] > closest_temp))
-                closest_temp = temp_arr[i];
-        return closest_temp;
+        double closestTemp = tempArr[0];
+        for (int i = 0; i < counter; i++) {
+            if (Math.abs(closestTemp) > Math.abs(tempArr[i]) || (Math.abs(
+                    Math.abs(closestTemp) - Math.abs(tempArr[i])) < delta
+                    && tempArr[i] > closestTemp)) {
+                closestTemp = tempArr[i];
+            }
+        }
+        return closestTemp;
     }
 
     public double findTempClosestToValue(double tempValue) {
         dontAllowEmptyArr();
-        double closest_to = temp_arr[0];
-        for (int i = 1; i < counter; i++)
-            if (Math.abs(closest_to - tempValue) > Math.abs(temp_arr[i] - tempValue) || (Math.abs(closest_to -
-                    tempValue) == Math.abs(temp_arr[i] - tempValue) && temp_arr[i] > closest_to))
-                closest_to = temp_arr[i];
-        return closest_to;
+        double closestTo = tempArr[0];
+        for (int i = 1; i < counter; i++) {
+            if (Math.abs(closestTo - tempValue) > Math.abs(tempArr[i]
+                    - tempValue) || (Math.abs(Math.abs(closestTo - tempValue)
+                    - Math.abs(tempArr[i] - tempValue)) < delta && tempArr[i]
+                    > closestTo)) {
+                closestTo = tempArr[i];
+            }
+        }
+        return closestTo;
     }
 
     public double[] findTempsLessThan(double tempValue) {
-        double[] array = Arrays.copyOfRange(temp_arr, 0, counter);
+        double[] array = Arrays.copyOfRange(tempArr, 0, counter);
         return Arrays.stream(array).filter(x -> x < tempValue).toArray();
     }
 
     public double[] findTempsGreaterThan(double tempValue) {
-        double[] array = Arrays.copyOfRange(temp_arr, 0, counter);
+        double[] array = Arrays.copyOfRange(tempArr, 0, counter);
         return Arrays.stream(array).filter(x -> x >= tempValue).toArray();
     }
 
@@ -87,30 +102,34 @@ public class TemperatureSeriesAnalysis {
     }
 
     public int addTemps(double... temps) {
-        for (double temp : temps)
-            if (temp < -273)
+        for (double temp : temps) {
+            if (temp < minTemp) {
                 throw new InputMismatchException();
-        if (temp_arr.length == 0) {
-            temp_arr = temps.clone();
-            return counter = temp_arr.length;
+            }
+        }
+        if (tempArr.length == 0) {
+            tempArr = temps.clone();
+            counter = tempArr.length;
+            return counter;
         }
         for (double temp : temps) {
-            if (counter == temp_arr.length) {
-                double[] buffer = temp_arr.clone();
-                temp_arr = new double[2 * counter];
-                System.arraycopy(buffer, 0, temp_arr, 0, buffer.length);
+            if (counter == tempArr.length) {
+                double[] buffer = tempArr.clone();
+                tempArr = new double[2 * counter];
+                System.arraycopy(buffer, 0, tempArr, 0, buffer.length);
             }
-            temp_arr[counter++] = temp;
+            tempArr[counter++] = temp;
         }
         return counter;
     }
 
-    public double[] getTemp_arr() {
-        return Arrays.copyOfRange(temp_arr, 0, counter);
+    public double[] getTempArr() {
+        return Arrays.copyOfRange(tempArr, 0, counter);
     }
 
     protected void dontAllowEmptyArr() {
-        if (counter == 0)
+        if (counter == 0) {
             throw new IllegalArgumentException();
+        }
     }
 }

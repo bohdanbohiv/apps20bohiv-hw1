@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysisTest {
-    private final double delta = 0.00001;
+    private static final double delta = 0.00001;
 
     // test average
     @Test
@@ -328,7 +328,7 @@ public class TemperatureSeriesAnalysisTest {
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
         assertEquals(temperatureSeries.length, seriesAnalysis.addTemps(temperatureSeries));
 
-        double[] actualArr = seriesAnalysis.getTemp_arr();
+        double[] actualArr = seriesAnalysis.getTempArr();
         assertArrayEquals(temperatureSeries, actualArr, delta);
     }
 
@@ -339,7 +339,7 @@ public class TemperatureSeriesAnalysisTest {
         assertEquals(temperatureSeries.length + 2, seriesAnalysis.addTemps(0.2, -0.2));
 
         double[] expArr = {3.0, -5.0, 1.0, 5.0, 0.2, -0.2};
-        double[] actualArr = seriesAnalysis.getTemp_arr();
+        double[] actualArr = seriesAnalysis.getTempArr();
         assertArrayEquals(expArr, actualArr, delta);
     }
 
@@ -357,7 +357,7 @@ public class TemperatureSeriesAnalysisTest {
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
 
         double[] expArr = {};
-        double[] actualArr = seriesAnalysis.getTemp_arr();
+        double[] actualArr = seriesAnalysis.getTempArr();
         assertArrayEquals(expArr, actualArr, delta);
     }
 }
