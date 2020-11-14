@@ -86,12 +86,12 @@ public class TemperatureSeriesAnalysis {
         return closestTo;
     }
 
-    public double[] findTempsLessThan(double tempValue) {
+    public double[] findTempsLessThen(double tempValue) {
         double[] array = Arrays.copyOfRange(tempArr, 0, counter);
         return Arrays.stream(array).filter(x -> x < tempValue).toArray();
     }
 
-    public double[] findTempsGreaterThan(double tempValue) {
+    public double[] findTempsGreaterThen(double tempValue) {
         double[] array = Arrays.copyOfRange(tempArr, 0, counter);
         return Arrays.stream(array).filter(x -> x >= tempValue).toArray();
     }

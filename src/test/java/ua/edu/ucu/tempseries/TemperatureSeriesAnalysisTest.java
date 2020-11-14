@@ -247,7 +247,7 @@ public class TemperatureSeriesAnalysisTest {
         double[] expResult = {};
 
         double tempValue = 3.6;
-        double[] actualResult = seriesAnalysis.findTempsLessThan(tempValue);
+        double[] actualResult = seriesAnalysis.findTempsLessThen(tempValue);
 
         assertArrayEquals(expResult, actualResult, delta);
     }
@@ -259,7 +259,7 @@ public class TemperatureSeriesAnalysisTest {
         double[] expResult = {3.0, -5.0, 1.0};
 
         double tempValue = 3.6;
-        double[] actualResult = seriesAnalysis.findTempsLessThan(tempValue);
+        double[] actualResult = seriesAnalysis.findTempsLessThen(tempValue);
 
         assertArrayEquals(expResult, actualResult, delta);
     }
@@ -272,7 +272,7 @@ public class TemperatureSeriesAnalysisTest {
         double[] expResult = {};
 
         double tempValue = 3.6;
-        double[] actualResult = seriesAnalysis.findTempsGreaterThan(tempValue);
+        double[] actualResult = seriesAnalysis.findTempsGreaterThen(tempValue);
 
         assertArrayEquals(expResult, actualResult, delta);
     }
@@ -284,7 +284,7 @@ public class TemperatureSeriesAnalysisTest {
         double[] expResult = {5.0, 3.6};
 
         double tempValue = 3.6;
-        double[] actualResult = seriesAnalysis.findTempsGreaterThan(tempValue);
+        double[] actualResult = seriesAnalysis.findTempsGreaterThen(tempValue);
 
         assertArrayEquals(expResult, actualResult, delta);
     }
